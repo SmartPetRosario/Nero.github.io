@@ -65,11 +65,11 @@
         obtenerUltimaUbicacion();
       }
     }
+
+
+
     function actualizarUbicacionEnBaseDeDatos() {
       const urlParams = "https://smartpet-1d59e-default-rtdb.firebaseio.com/smartpet/mascotas/452/datosMascotas.json";
-  
-     
-
       fetch(urlParams, {
         method: 'PATCH',
         headers: {
@@ -117,8 +117,8 @@
     <section class="datos-principales">
       <div class="imagenen-mascota">
         <img
-          src="https://firebasestorage.googleapis.com/v0/b/smartpet-1d59e.appspot.com/o/a%20(5).jfif?alt=media&amp;token=050f4f19-b6e4-4755-b5f7-c56b7432f857"
-          alt="Minerva" style="width: 100%; height: auto;" class="img-mostrar-mascota">
+          src="./assets/smartpet.jpg"
+          alt="Minerva" style="width: 100%; height: auto;" id="img-mascota" class="img-mostrar-mascota">
       </div>
       <div class="datos-mascota">
         <h4 class="nombre-mascota">Minerva</h4>
@@ -138,7 +138,7 @@
         <div class="contenedor-datos-mascota">
           <img src="./assets/locato.png" title="icnos" class="iconos-datos-mascota ">
           <p class="ubicacion-mascota">
-         Ubicacion
+            Ubicacion
           </p>
         </div>
       </div>
@@ -263,52 +263,66 @@
       }
   
       // Reemplazar datos en la página
-      document.querySelector(".nombre-mascota").textContent = datosMascota.nombre || "Sin nombre";
-      document.querySelector(".sexo-mascota").textContent = datosMascota.sexo || "Sexo de la mascota";
-      document.querySelector(".edad-mascota").textContent = `${datosMascota.edad.trim()}` || "Edad desconocida";
-      document.querySelector(".ubicacion-mascota").textContent = datosMascota.ubicacion || "Ubicación desconocida";
+      actualizarContenido(".nombre-mascota", datosMascota.nombre || "Sin nombre");
+      actualizarContenido(".sexo-mascota", datosMascota.sexo || "Sexo de la mascota");
+      actualizarContenido(".edad-mascota", datosMascota.edad ? `${datosMascota.edad.trim()}` : "Edad desconocida");
+      actualizarContenido(".ubicacion-mascota", datosMascota.ubicacion || "Ubicación desconocida");
   
       // Actualizar descripción y manejar visibilidad del contenedor
       const descripcionSection = document.querySelector(".descripcion");
       const descripcionElement = document.querySelector(".descripcion-mascota");
       const descripcion = datosMascota.descripcion || "";
   
-      descripcionElement.textContent = descripcion || "Sin descripción";
+      actualizarContenido(".descripcion-mascota", descripcion || "Sin descripción");
       descripcionSection.style.display = descripcion.trim() ? "block" : "none"; // Mostrar/ocultar contenedor
   
-      document.getElementById("nombre-contacto1").textContent = datosMascota.persona1 || "Contacto 1";
-      document.getElementById("nombre-contacto2").textContent = datosMascota.persona2 || "Contacto 2";
+      actualizarContenido("#nombre-contacto1", datosMascota.persona1 || "Contacto 1");
+      actualizarContenido("#nombre-contacto2", datosMascota.persona2 || "Contacto 2");
   
       // Configurar botones de WhatsApp
-      document.getElementById("whatsapp-redes1").onclick = () => {
-        window.open(`https://wa.me/+549${datosMascota.telefono1}?text=${encodeURIComponent(datosMascota.mensaje)}`, "_blank");
-      };
-      document.getElementById("whatsapp-redes2").onclick = () => {
-        window.open(`https://wa.me/+549${datosMascota.telefono2}?text=${encodeURIComponent(datosMascota.mensaje)}`, "_blank");
-      };
+      actualizarBoton("#whatsapp-redes1", `https://wa.me/+549${datosMascota.telefono1}?text=${encodeURIComponent(datosMascota.mensaje)}`);
+      actualizarBoton("#whatsapp-redes2", `https://wa.me/+549${datosMascota.telefono2}?text=${encodeURIComponent(datosMascota.mensaje)}`);
   
       // Configurar botones de Llamada
-      document.getElementById("llamar-redes1").onclick = () => {
-        window.location.href = `tel:+549${datosMascota.telefono1}`;
-      };
-      document.getElementById("llamar-redes2").onclick = () => {
-        window.location.href = `tel:+549${datosMascota.telefono2}`;
-      };
+      actualizarBoton("#llamar-redes1", `tel:+549${datosMascota.telefono1}`);
+      actualizarBoton("#llamar-redes2", `tel:+549${datosMascota.telefono2}`);
   
       // Configurar botones de Instagram
-      document.getElementById("ig1").onclick = () => {
-        window.open(`https://www.instagram.com/${datosMascota.ig1}/`, "_blank");
-      };
-      document.getElementById("ig2").onclick = () => {
-        window.open(`https://www.instagram.com/${datosMascota.ig2}/`, "_blank");
-      };
+      actualizarBoton("#ig1", `https://www.instagram.com/${datosMascota.ig1}/`);
+      actualizarBoton("#ig2", `https://www.instagram.com/${datosMascota.ig2}/`);
   
       // Actualizar la imagen de la mascota
-      document.querySelector(".img-mostrar-mascota").src = datosMascota.img || './assets/smartpet.jpg';
+      actualizarImagen("#img-mostrar-mascota", datosMascota.img || './assets/smartpet.jpg');
+    }
+  
+    // Función para actualizar el contenido de un elemento
+    function actualizarContenido(selector, contenido) {
+      const elemento = document.querySelector(selector);
+      if (elemento) {
+        elemento.textContent = ""; // Limpia el contenido actual
+        elemento.textContent = contenido; // Asigna el nuevo contenido
+      }
+    }
+  
+    // Función para actualizar el botón con un enlace
+    function actualizarBoton(selector, url) {
+      const boton = document.querySelector(selector);
+      if (boton) {
+        boton.onclick = () => {
+          window.open(url, "_blank");
+        };
+      }
+    }
+  
+    // Función para actualizar la imagen
+    function actualizarImagen(selector, src) {
+      const img = document.querySelector(selector);
+      if (img) {
+        img.src = src; // Asigna la nueva URL de la imagen
+      }
     }
   </script>
-
-
+  
 
 
 
