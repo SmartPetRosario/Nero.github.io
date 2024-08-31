@@ -66,12 +66,11 @@
       }
     }
     function actualizarUbicacionEnBaseDeDatos() {
-      const urlParams = "https://smartpet-1d59e-default-rtdb.firebaseio.com/smartpet/mascotas/452.json";
+      const urlParams = "https://smartpet-1d59e-default-rtdb.firebaseio.com/smartpet/mascotas/452/datosMascotas.json";
   
-      const registroId = urlParams.get("mascota");
-      const urldatosmascotas = `https://smartpet-1d59e-default-rtdb.firebaseio.com/smartpet/mascotas/${registroId}/datosMascotas.json`;
+     
 
-      fetch(urldatosmascotas, {
+      fetch(urlParams, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
